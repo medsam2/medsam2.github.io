@@ -1,1 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="MedRAX, Chest X-ray AI, Medical AI, CXR interpretation, Medical reasoning, AI in radiology, ChestAgentBench, Medical VQA, AI healthcare, Automated diagnosis">
+    <meta name="description" content="MedRAX is an advanced AI agent for Chest X-ray interpretation, seamlessly integrating multimodal reasoning and structured tool-based decision-making to improve complex medical query analysis. MedRAX outperforms existing models, setting a new benchmark in automated CXR diagnosis with ChestAgentBench.">    
+    <link rel="icon" type="image/x-icon" href="static/images/medrax.jpg">
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <!--Main Scripts-->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="script.js" defer=""></script>
+    <!-- MatJax -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async=""
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML">
+        </script>
+    <!--Jquery-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js" defer=""></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js" defer=""></script>
+    <title>MedSAM2: Segment Anything in 3D Medical Images and Videos</title>
+</head>
+
+<body>
+    <div class="toggle-container">
+        <button id="toggleButton" class="inactive">Dark Mode</button>
+
+        <div id="navigateAndButton">
+            <a href=#menu class="scroll-link"><button id="jumpTo">Navigate</button></a>
+            <div id="navigation-content">
+                <div id="navigation">
+                    <span class="inline-heading-2"><a href=#header class="scroll-link">Return to Top</a></span>
+                    <span class="inline-heading"><a href=#Highlights class="scroll-link">Highlights</a></span>
+                    <!-- <span class="inline-heading"><a href=#KeyContributions class="scroll-link">2. Key Contributions</a></span>
+                    <span class="inline-heading"><a href=#MedRAXFramework class="scroll-link">3. MedRAX Framework</a></span>
+                    <span class="inline-heading"><a href=#ChestAgentBench class="scroll-link">4. ChestAgentBench</a></span>
+                    <span class="inline-heading"><a href=#Experiments class="scroll-link">5. Experiments</a></span>
+                    <span class="inline-heading"><a href=#CaseStudy class="scroll-link">6. Case Study</a></span>
+                    <p><a href="#6a" class="scroll-link">a. Medical Device Identification (Eurorad Case 17576)</a></p>
+                    <p><a href="#6b" class="scroll-link">b. Multi-step Disease Diagnosis (Eurorad Case 16703)</a></p>
+                    <span class="inline-heading"><a href=#Conclusion class="scroll-link">7. Conclusion</a></span>
+                    <span class="inline-heading"><a href=#BibTeX class="scroll-link">9. BibTeX</a></span> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="outer-container">
+
+        <div class="header" , id="header">
+            <div style="text-align:center; margin-bottom:20px;">
+                <h1 style="display: inline; vertical-align: middle;">MedSAM2: Segment Anything in 3D Medical Images and Videos</h1>
+            </div>
+
+            <p class="authors">                    
+                <span class="author" id="author2">Jun Ma<sup>*</sup></span>, 
+                <span class="author" id="author3">Zongxin Yang<sup>*</sup></span>, 
+                <span class="author" id="author4">Sumin Kim</span>, 
+                <span class="author" id="author4">Bihui Chen</span>, 
+                <span class="author" id="author4">Mohammed Baharoon</span>, 
+                <span class="author" id="author4">Adibvafa Fallahpour</span>, 
+                <span class="author" id="author4">Reza Akakereh</span>, 
+                <span class="author" id="author4">Hongwei Lyu</span>, 
+                <span class="author" id="author5">Bo Wang<sup>&dagger;</sup></span>, 
+            </p>
+            <p class="paper-links">
+                <div class="center-text">
+                    <a href="https://github.com/bowang-lab/MedSAM2/blob/main/tbd" target="_blank" rel="noopener" style="text-decoration: none;">
+                        <img src="https://img.shields.io/badge/Paper-blue?style=for-the-badge" alt="Paper">
+                    </a>
+                    <a href="" target="_blank" rel="noopener" style="text-decoration: none;">
+                        <img src="https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge&logoColor=FF9D00" alt="Huggingface">
+                    </a>
+                    <a href="https://medsam-datasetlist.github.io/" target="_blank" rel="noopener" style="text-decoration: none;">
+                        <img src="https://img.shields.io/badge/Dataset%20List-4A90E2?style=for-the-badge&logoColor=white" alt="Dataset List">
+                    </a>
+                    <a href="" target="_blank" rel="noopener" style="text-decoration: none;">
+                        <img src="https://img.shields.io/badge/CT__DeepLesion--MedSAM2-green?style=for-the-badge" alt="CT_DeepLesion-MedSAM2">
+                    </a>
+                    <a href="" target="_blank" rel="noopener" style="text-decoration: none;">
+                        <img src="https://img.shields.io/badge/LLD--MMRI--MedSAM2-orange?style=for-the-badge" alt="LLD-MMRI-MedSAM2">
+                    </a>
+                    <a href="https://github.com/bowang-lab/MedSAMSlicer/tree/MedSAM2" target="_blank" rel="noopener" style="text-decoration: none;">
+                        <img src="https://img.shields.io/badge/3D_Slicer-black?style=for-the-badge&logo=3DSlicer&logoColor=white" alt="3D Slicer">
+                    </a>
+                    <a href="https://github.com/bowang-lab/MedSAM2/blob/main/app.py" target="_blank" rel="noopener" style="text-decoration: none;">
+                        <img src="https://img.shields.io/badge/Gradio_App-yellow?style=for-the-badge&logoColor=white" alt="Gradio App">
+                    </a>
+                    <a href="https://colab.research.google.com/drive/1MKna9Sg9c78LNcrVyG58cQQmaePZq2k2?usp=sharing" target="_blank" rel="noopener" style="text-decoration: none;">
+                        <img src="https://img.shields.io/badge/CoLab-4A90E2?style=for-the-badge&logo=CoLab&logoColor=white" alt="CoLab">
+                    </a>
+                    <a href="https://github.com/bowang-lab/MedSAM2#citing-medsam2" target="_blank" rel="noopener" style="text-decoration: none;">
+                        <img src="https://img.shields.io/badge/BibTeX-4A90E2?style=for-the-badge&logo=BibTeX&logoColor=white" alt="BibTeX">
+                    </a>
+                </div>
+                <div style="text-align: center;">
+                    <img src="https://img.shields.io/badge/huggingface-FFFFFF?logo=huggingface&logoColor=FFD21E" alt="huggingface">
+                    <a href="https://huggingface.co/datasets/wanglab/CT_DeepLesion-MedSAM2" target="_blank" style="color: black;">
+                        https://huggingface.co/datasets/wanglab/CT_DeepLesion-MedSAM2
+                    </a>
+                </div>
+                <div style="text-align: center;">
+                    <a href="https://huggingface.co/datasets/wanglab/LLD-MMRI-MedSAM2" target="_blank" style="color: black;">
+                        <img src="https://img.shields.io/badge/huggingface-FFFFFF?logo=huggingface&logoColor=FFD21E" alt="huggingface">
+                        https://huggingface.co/datasets/wanglab/LLD-MMRI-MedSAM2
+                    </a>
+                </div>
+            </p>
+            <!-- <p>The dataset, code, and trained model weights will be publicly available after anonymous peer review.</p> -->
+        </div>
+
+        <!-- <div class="video-grid">
+            <div class="video-container">
+                <video id='demoVideo' src="static/videos/video.mp4" controls autoplay loop></video>
+            </div>
+        </div> -->
+        <div class="section" , id="Highlights">
+            <h2>Highlights</h2>
+            <div class="subsection">
+                <ul style="list-style-type: disc; padding-left: 0; ">
+                    <li style="line-height: 1.6; margin-bottom: 10px;">A promptable foundation model for 3D medical image and video segmentation</li>
+                    <li style="line-height: 1.6; margin-bottom: 10px;">Trained on 455,000+ 3D image–mask pairs and 76,000+ annotated video frames</li>
+                    <li style="line-height: 1.6; margin-bottom: 10px;">Versatile segmentation capability across diverse organs and pathologies. </li>
+                    <li style="line-height: 1.6; margin-bottom: 10px;">Extensive user studies in large-scale lesion and video datasets demonstrate that MedSAM2 substantially facilitates annotation workflows</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="section">
+            <div class="subsection">
+                <figure>
+                    <img src="static\1.png" , class="image" alt="">
+                    <figcaption>Figure 1</figcaption>
+                </figure>
+                <p class="description">
+                    <strong>Description:</strong> The dataset includes diverse 3D CT, PET, MRI images, ultrasound, and endoscopy videos. For each 3D image example, we visualize both 2D slices and 3D structures. For each video example, we visualize frames at different time points. 
+                </p>
+                <p class="description">
+                    MedSAM2 is a promptable segmentation network with an image encoder, a prompt encoder, a memory attention module, and a mask decoder. The image encoder extracts multiscale features from each frame or 2D slice. The memory attention module conditions the current frame features on past frames' features and predictions using streaming memory. The mask decoder generates accurate segmentation masks based on bounding box prompts and memory-conditioned features. This architecture enables MedSAM2 to effectively segment both 3D medical images and videos by exploiting spatial continuity across slices and frames.
+                </p>
+            </div>
+        </div>
+        <div class="video-grid">
+            <div class="video-container">
+                <video id='demoVideo' src="static\2.mp4" controls autoplay loop></video>
+            </div>
+        </div>
+        <div class="video-grid">
+            <div class="video-container">
+                <video id='demoVideo' src="static\3.mp4" controls autoplay loop></video>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">                
+                <figure>
+                    <img src="static\4.png" , class="image" alt="Figure 4">
+                    <figcaption>Figure 4: Human-in-the-loop Annotation Pipeline with MedSAM2</figcaption>
+                </figure>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="video-grid">
+            <div class="video-container" style="max-width:100%">
+                <video id='demoVideo' src="static\5.mp4" controls autoplay loop></video>
+            </div>
+        </div>
+        <div>
+            <figcaption>Figure 5: MedSAM2 for large-scale multi-phase liver lesion MRI annotation.</figcaption>
+        </div>
+
+        <div class="section">
+            <div class="subsection">                
+                <figure>
+                    <img src="static\6.png" , class="image" alt="Figure 6">
+                    <figcaption>Figure 6: MedSAM2 deployment on common computing platforms.</figcaption>
+                </figure>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="video-grid">
+            <div class="video-container" style="max-width:100%">
+                <video id='demoVideo' src="static\7.mp4" controls autoplay loop></video>
+            </div>
+        </div>
+        <div>
+            <figcaption>Figure 7: CT lesion segmentation with MedSAM2 in 3D Slicer.</figcaption>
+        </div>
+
+
+        
+
+        <div id="BibTeX">
+            <!-- <h2>BibTeX</h2>
+<code id="myCode">@misc{fallahpour2025medraxmedicalreasoningagent,
+    title={MedRAX: Medical Reasoning Agent for Chest X-ray}, 
+    author={Adibvafa Fallahpour and Jun Ma and Alif Munim and Hongwei Lyu and Bo Wang},
+    year={2025},
+    eprint={2502.02673},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG},
+    url={https://arxiv.org/abs/2502.02673}, 
+}</code>
+            <button id="copyButton">Copy</button> -->
+            <br><br><br><br><br>
+            <div id="thanks">
+                <p>
+                    This website template is borrowed from <a href="https://github.com/boundaryattention/boundaryattention.github.io/" target="_blank" rel="noopener">here</a>. Thank you!
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
