@@ -16,21 +16,21 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleButton.textContent = "Light Mode";
     }
 
-    toggleButton.addEventListener("click", () => {
-        root.classList.toggle("darkmode");
-        toggleButton.classList.toggle("active");
-        toggleButton.classList.toggle("inactive");
+    // toggleButton.addEventListener("click", () => {
+    //     root.classList.toggle("darkmode");
+    //     toggleButton.classList.toggle("active");
+    //     toggleButton.classList.toggle("inactive");
 
-        // Store user's preference in localStorage
-        const isDarkMode = root.classList.contains("darkmode");
-        localStorage.setItem("darkModeEnabled", isDarkMode);
+    //     // Store user's preference in localStorage
+    //     const isDarkMode = root.classList.contains("darkmode");
+    //     localStorage.setItem("darkModeEnabled", isDarkMode);
 
-        if (toggleButton.classList.contains("active")) {
-            toggleButton.textContent = "Light Mode";
-          } else {
-            toggleButton.textContent = "Dark Mode";
-        }
-      });
+    //     if (toggleButton.classList.contains("active")) {
+    //         toggleButton.textContent = "Light Mode";
+    //       } else {
+    //         toggleButton.textContent = "Dark Mode";
+    //     }
+    //   });
 
       // Define scroll links
       const scrollLinks = document.querySelectorAll('.scroll-link');
@@ -50,27 +50,27 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     
     // Menu/navigation controls
-    const navigationButton = document.getElementById("jumpTo");
-    const navigation = document.getElementById("navigation");
+    // const navigationButton = document.getElementById("jumpTo");
+    // const navigation = document.getElementById("navigation");
 
-    navigationButton.addEventListener("mouseenter", (event) => {
-        navigation.style.display = 'flex';
-    });
+    // navigationButton.addEventListener("mouseenter", (event) => {
+    //     navigation.style.display = 'flex';
+    // });
 
-    navigation.addEventListener("mouseleave", (event) => {
-        navigation.style.display = 'none';
-    });
+    // navigation.addEventListener("mouseleave", (event) => {
+    //     navigation.style.display = 'none';
+    // });
 
-    document.addEventListener('mouseout', function(event) {
-        if (event.relatedTarget === null) {
-            navigation.style.display = 'none';
-        }
-    });
+    // document.addEventListener('mouseout', function(event) {
+    //     if (event.relatedTarget === null) {
+    //         navigation.style.display = 'none';
+    //     }
+    // });
 
-    const originalSection = document.getElementById("navigation");
-    const clonedContent = originalSection.cloneNode(true);
+    // const originalSection = document.getElementById("navigation");
+    // const clonedContent = originalSection.cloneNode(true);
     
-    clonedContent.style.display = "flex";
+    // clonedContent.style.display = "flex";
     // Copy Button
     const copyButton = document.getElementById('copyButton');
 
